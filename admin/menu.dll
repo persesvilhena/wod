@@ -1,0 +1,11 @@
+<fieldset style="width: 200; position: absolute;">
+<legend>Menu</legend>
+<a href="index.php" class="painel" target="_top">Home</a><br>
+<a href="sair.php" class="painel" target="_top">Sair</a><br>
+<a href="criarpasta.php" class="painel" target="_top">Criar Pasta</a><br>
+<a href="criarsub.php" class="painel" target="_top">Criar Subpasta</a><br>
+<a href="criarlinks.php" class="painel" target="_top">Criar Link</a><br>
+<a href="pedidos.php" class="painel" target="_top">Ver Pedidos</a><br>
+<a href="problemas.php" class="painel" target="_top">Ver Problemas</a><br>
+<a href="linksoff.php" class="painel" target="_top">Ver Links Off</a><br>
+</fieldset>

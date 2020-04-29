@@ -1,0 +1,120 @@
+<body bgcolor="#414141">
+<?php
+$sql = mysql_query("SELECT * FROM `subpasta` where id='$info1';");
+$exibesql = mysql_fetch_array($sql);
+?>
+
+<?php
+$mensagem_errocom = "Enviar Comentario:";
+if(isset($_POST["enviarcom"])) { 
+	
+	if(!empty($_POST["nome"]) && !empty($_POST["com"]) ) { 
+		
+		$com = $class->antisql($_POST["com"]);
+		$nome = $class->antisql($_POST["nome"]);
+		$data = $class->antisql($_POST["data"]);
+		
+			$insert = mysql_query("INSERT INTO `wod`.`comentario` (`id`, `nome`, `comentario`, `data`, `subpasta`) VALUES (NULL, '$nome', '$com', '$data', '$info1');") or die(mysql_error());
+			
+			if($insert) {
+				
+				$mensagem_errocom = "Comentário enviado com sucesso!";
+			}
+		
+		
+	}
+	else {
+	
+		$mensagem_errocom = "<b>Por favor, preencha todos os campos!</b>";
+		
+	}		
+}
+?>
+
+<?php
+$msg_erro1 = "";
+$msg_erro = "submit";
+$mensagem_erro = "Informar";
+if(isset($_POST["enviar"])) { 
+$link = $class->antisql($_POST["link"]);
+$ido = $class->antisql($_POST["ido"]);
+
+		
+$insert = mysql_query("INSERT INTO  `wod`.`linkoff` (
+`id` ,
+`link` ,
+`ido`
+)
+VALUES (
+NULL ,  '$link',  '$ido'
+);
+") or die(mysql_error());
+			
+			if($insert) {
+				$msg_erro = "hidden";
+				$mensagem_erro = "Informado";
+				$msg_erro1 = "Link Off informado com sucesso! Obrigado";
+			}
+		
+		
+	
+	else {
+	
+		$mensagem_erro = "<b>erro! informe o webmaster</b>";
+		$msg_erro = "<b>erro! informe o webmaster</b>";
+			$msg_erro1 = "error";
+} }
+?>
+
+<?php include("includes/ct.dll"); ?><span class="titulo"><?php echo "$exibesql[nome]"; ?></span><?php include("includes/ft.dll"); ?>
+<?php include("includes/cb.dll"); ?>
+<span class="texto">
+<b>Descrição:</b> <?php echo "$exibesql[descricao]"; ?><br>
+<b>Links:</b> <br>
+<?php
+$res = mysql_query("SELECT * FROM  `links` WHERE subpasta='$info1'") or die(mysql_error());
+echo "<table>";
+echo "<tr>
+<td width=80%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Nome</span></div></div></td>
+<td width=5%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Download</span></div></div></td>
+<td width=5%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Tamanho</span></div></div></td>
+<td width=10%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Link Off</span></div></div></td></tr>";
+ while($escrever=mysql_fetch_array($res)){
+ echo "<tr><td><span class=texto>" . $escrever['nome'] . "</span></td>
+  <td><span class=texto><a href=" . $escrever['link'] . " target=_top><img height=20 src=includes/download.png></a></span></td>
+  <td><span class=texto>" . $escrever['tamanho'] . "</span></td>
+  <td><span class=texto><form method=post action=" . $PHP_SELF . "><input type=hidden name=ido value=" . $escrever['id'] . "><input type=hidden name=link value=" . $escrever['link'] . "><input type=" . $msg_erro . " name=enviar value=" . $mensagem_erro . "></form>" . $msg_erro1 . "</span></td></tr>";
+ }
+  echo "</table>";
+?>
+<?php include("includes/fb.dll"); ?></div><br>
+
+<?php include "includes/ct.dll"; ?>
+<span class="titulo">Wall Of Downloas</span>
+<?php include "includes/ft.dll"; ?>
+<?php include "includes/cb.dll"; ?>
+<b><?php echo "$mensagem_errocom"; ?></b><br>
+<form method="post" action="<?php $PHP_SELF; ?>">
+<b>Nome: </b><input type="text" name="nome"><br>
+<input type="hidden" name="data" value="<?php echo date("d/m/Y"); ?>">
+<textarea rows="10" cols="100" type="text" name="com"></textarea><br>
+<input type="submit" name="enviarcom" value="Enviar">
+</form>
+<hr size="1" color="#414141">
+<?php
+$res1 = mysql_query("SELECT * FROM  `comentario` where subpasta = '$info1' ORDER BY  `comentario`.`id` desc LIMIT 0 , 30") or die(mysql_error());
+echo "<table>";
+echo "<tr>
+<td width=10%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Nome</span></div></div></td>
+<td width=80%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Comentario</span></div></div></td>
+<td width=10%><div class=bordaBox1><b class=c1></b><b class=c2></b><b class=c3></b><b class=c4></b><div class=conteudo1><span class=titulo>Data</span></div></div></td></tr>";
+ while($escrever1=mysql_fetch_array($res1)){
+ echo "<tr>
+  <td bgcolor=#414141><span class=texto>" . $escrever1['nome'] . "</span></td>
+  <td bgcolor=#414141><span class=texto>" . $escrever1['comentario'] . "</span></td>
+  <td bgcolor=#414141><span class=texto>" . $escrever1['data'] . "</span></td></tr>";
+ }
+  echo "</table>";
+?>
+<?php include "includes/fb.dll"; ?>
+<div align="center"><span class="subtitulo">Wall Of Downloads 2011-2012 | Perses 2012</span></div>

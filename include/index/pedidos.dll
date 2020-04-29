@@ -1,0 +1,40 @@
+<?php
+$mensagem_erro = "Fazer Pedido:";
+if(isset($_POST["enviar"])) { 
+	
+	if(!empty($_POST["pedido"]) && !empty($_POST["nome"]) ) { 
+		
+		$pedido = $class->antisql($_POST["pedido"]);
+		$nome = $class->antisql($_POST["nome"]);
+		$email = $class->antisql($_POST["email"]);
+		
+			$insert = mysql_query("INSERT INTO `wod`.`pedidos` (`id`, `pedido`, `nome`, `email`) VALUES (NULL, '$pedido', '$nome', '$email');") or die(mysql_error());
+			
+			if($insert) {
+				
+				$mensagem_erro = "<b>Pedido feito com sucesso!</b>";
+			}
+		
+		
+	}
+	else {
+	
+		$mensagem_erro = "<b>Por favor, preencha os campos obrigatorios para fazer o pedido!</b>";
+		
+	}		
+}
+?>
+<body bgcolor="#414141">
+<?php include "includes/ct.dll"; ?>
+<span class="titulo">Wall Of Downloas</span>
+<?php include "includes/ft.dll"; ?>
+<?php include "includes/cb.dll"; ?>
+<b><?php echo "$mensagem_erro"; ?></b><br>
+<form method="post" action="<?php $PHP_SELF; ?>">
+<b>Nome: </b><input type="text" name="nome"><br>
+<b>E-mail:(opcional) </b><input type="text" name="email"><br>
+<textarea rows="10" cols="100" type="text" name="pedido"></textarea><br>
+<input type="submit" name="enviar" value="Informar">
+</form>
+<?php include "includes/fb.dll"; ?>
+<div align="center"><span class="subtitulo">Wall Of Downloads 2011-2012 | Perses 2012</span></div>
